@@ -19,9 +19,9 @@ public interface ElementRelation {
     ElementRelation getInverse();
 
     /**
-     * A general neutral relation (default).
+     * A general normal relation (default).
      */
-    ElementRelation NEUTRAL = new ElementRelation() {
+    ElementRelation NORMAL = new ElementRelation() {
         @Override
         public double getMultiplier() {
             return 1.0;
@@ -34,7 +34,7 @@ public interface ElementRelation {
 
         @Override
         public String toString() {
-            return "NEUTRAL";
+            return "NORMAL";
         }
     };
 }
