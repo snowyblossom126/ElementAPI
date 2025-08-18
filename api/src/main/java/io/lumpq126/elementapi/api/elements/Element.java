@@ -2,12 +2,23 @@ package io.lumpq126.elementapi.api.elements;
 
 import java.util.Objects;
 
+/**
+ * Represents a base element type within the system.
+ * <p>
+ * Each element is uniquely identified by a case-insensitive string ID
+ * (e.g., "FIRE", "WATER"). Subclasses should extend this class
+ * to define custom elements.
+ * </p>
+ */
 public abstract class Element {
     private final String id;
 
     /**
-     * 새로운 속성 클래스를 만들 때 호출해야 하는 생성자입니다.
-     * @param id 속성을 식별할 고유 ID (예: "FIRE", "WATER"). 대소문자를 구분하지 않습니다.
+     * Creates a new {@code Element} with the specified unique ID.
+     *
+     * @param id a non-null, non-blank string used to identify this element.
+     *           Case is ignored; IDs are stored in uppercase.
+     * @throws IllegalArgumentException if {@code id} is null or blank
      */
     protected Element(String id) {
         if (id == null || id.isBlank()) {
@@ -17,31 +28,46 @@ public abstract class Element {
     }
 
     /**
-     * 속성의 고유 ID를 반환합니다.
-     * @return 속성 ID
+     * Returns the unique identifier of this element.
+     *
+     * @return the element ID in uppercase
      */
     public final String getId() {
         return id;
     }
 
+    /**
+     * Returns the string representation of this element,
+     * which is its unique ID.
+     *
+     * @return the element ID
+     */
     @Override
     public final String toString() {
         return id;
     }
 
     /**
-     * 모든 Element는 ID를 기준으로 비교됩니다. 이 메서드는 final로 오버라이드할 수 없습니다.
+     * Compares this element with another for equality.
+     * <p>
+     * Two elements are considered equal if their IDs match,
+     * regardless of their concrete class type.
+     * </p>
+     *
+     * @param o the object to compare with
+     * @return {@code true} if both elements have the same ID, otherwise {@code false}
      */
     @Override
     public final boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Element element = (Element) o;
+        if (!(o instanceof Element element)) return false;
         return id.equals(element.id);
     }
 
     /**
-     * 모든 Element의 해시코드는 ID를 기반으로 생성됩니다. 이 메서드는 final로 오버라이드할 수 없습니다.
+     * Returns the hash code for this element, based on its ID.
+     *
+     * @return the hash code value
      */
     @Override
     public final int hashCode() {
