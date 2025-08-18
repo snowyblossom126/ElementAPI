@@ -161,16 +161,17 @@ public final class ElementAPI {
 
     /**
      * Retrieves the relation between two elements.
+     * If no relation is defined, returns a default normal relation.
      *
      * @param from source element
      * @param to target element
-     * @return an {@link Optional} containing the relation, or empty if none exists.
+     * @return the relation, never null
      */
-    public Optional<ElementRelation> getRelation(Element from, Element to) {
+    public ElementRelation getRelation(Element from, Element to) {
         if (from == null || to == null) {
-            return Optional.empty();
+            return ElementRelation.NORMAL; // null 방어
         }
-        return Optional.ofNullable(relations.get(new ElementPair(from, to)));
+        return relations.getOrDefault(new ElementPair(from, to), ElementRelation.NORMAL);
     }
 
     /**
@@ -182,6 +183,7 @@ public final class ElementAPI {
      * @return the existing relation, or the provided default
      */
     public ElementRelation getRelationOrDefault(Element from, Element to, ElementRelation defaultRelation) {
-        return getRelation(from, to).orElse(defaultRelation);
+        ElementRelation relation = getRelation(from, to);
+        return (relation != null) ? relation : defaultRelation;
     }
 }
