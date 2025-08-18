@@ -17,24 +17,4 @@ public interface ElementRelation {
      * Example: Fire -> Water is 0.5x, then Water -> Fire should be 2.0x.
      */
     ElementRelation getInverse();
-
-    /**
-     * A general normal relation (default).
-     */
-    ElementRelation NORMAL = new ElementRelation() {
-        @Override
-        public double getMultiplier() {
-            return 1.0;
-        }
-
-        @Override
-        public ElementRelation getInverse() {
-            return this; // 대칭
-        }
-
-        @Override
-        public String toString() {
-            return "NORMAL";
-        }
-    };
 }

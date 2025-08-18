@@ -2,6 +2,7 @@ package io.lumpq126.elementapi.api;
 
 import io.lumpq126.elementapi.api.elements.Element;
 import io.lumpq126.elementapi.api.elements.ElementRelation;
+import io.lumpq126.elementapi.api.elements.relation.BasicRelation;
 import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
 import org.bukkit.persistence.PersistentDataType;
@@ -169,9 +170,9 @@ public final class ElementAPI {
      */
     public ElementRelation getRelation(Element from, Element to) {
         if (from == null || to == null) {
-            return ElementRelation.NORMAL; // null 방어
+            return BasicRelation.GENERAL; // null 방어
         }
-        return relations.getOrDefault(new ElementPair(from, to), ElementRelation.NORMAL);
+        return relations.getOrDefault(new ElementPair(from, to), BasicRelation.GENERAL);
     }
 
     /**
