@@ -10,24 +10,6 @@ version = "1.0.0"
 
 val pluginVersion = project.version.toString()
 
-val nmsVersions = mapOf(
-    "nms:v1_17_R1" to "1.17.1-R0.1-SNAPSHOT",
-    "nms:v1_18_R1" to "1.18.1-R0.1-SNAPSHOT",
-    "nms:v1_18_R2" to "1.18.2-R0.1-SNAPSHOT",
-    "nms:v1_19_R1" to "1.19.2-R0.1-SNAPSHOT",
-    "nms:v1_19_R2" to "1.19.3-R0.1-SNAPSHOT",
-    "nms:v1_19_R3" to "1.19.4-R0.1-SNAPSHOT",
-    "nms:v1_20_R1" to "1.20.1-R0.1-SNAPSHOT",
-    "nms:v1_20_R2" to "1.20.2-R0.1-SNAPSHOT",
-    "nms:v1_20_R3" to "1.20.4-R0.1-SNAPSHOT",
-    "nms:v1_20_R4" to "1.20.6-R0.1-SNAPSHOT",
-    "nms:v1_21_R1" to "1.21.1-R0.1-SNAPSHOT",
-    "nms:v1_21_R2" to "1.21.2-R0.1-SNAPSHOT",
-    "nms:v1_21_R3" to "1.21.4-R0.1-SNAPSHOT",
-    "nms:v1_21_R4" to "1.21.5-R0.1-SNAPSHOT",
-    "nms:v1_21_R5" to "1.21.8-R0.1-SNAPSHOT"
-)
-
 allprojects {
     apply(plugin = "java")
 
@@ -49,7 +31,6 @@ allprojects {
 dependencies {
     implementation(project(":api"))
     implementation(project(":core"))
-    nmsVersions.keys.forEach { implementation(project(":$it", configuration = "reobf")) }
 }
 
 tasks {
@@ -61,7 +42,6 @@ tasks {
     }
 
     shadowJar {
-        nmsVersions.keys.forEach { dependsOn(":$it:reobfJar") }
 
         archiveClassifier.set("")
         archiveFileName.set("ElementAPI-$pluginVersion.jar")
