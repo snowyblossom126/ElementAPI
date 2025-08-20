@@ -13,7 +13,6 @@ import io.snowyblossom126.elementapi.api.elements.ElementRelation;
  * <li>{@link #WEAK} – Attacker is weak (0.5x), defender is strong (2x).</li>
  * <li>{@link #GENERAL} – No advantage (1x both directions).</li>
  * <li>{@link #MUTUAL_STRONG} – Both directions are strong (2x each way).</li>
- * <li>{@link #MUTUAL_WEAK} – Both directions are weak (0.5x each way).</li>
  * </ul>
  *
  * <p>
@@ -29,8 +28,7 @@ public enum BasicRelation implements ElementRelation {
     STRONG(2.0),
     WEAK(0.5),
     GENERAL(1.0),
-    MUTUAL_STRONG(2.0),
-    MUTUAL_WEAK(0.5);
+    MUTUAL_STRONG(2.0);
 
     private final double multiplier;
 
@@ -54,7 +52,6 @@ public enum BasicRelation implements ElementRelation {
      * - For asymmetric relations ({@link #STRONG}, {@link #WEAK}),
      * this returns the corresponding opposite relation.
      * <br>
-     * - For symmetric relations ({@link #GENERAL}, {@link #MUTUAL_STRONG}, {@link #MUTUAL_WEAK}),
      * this returns {@code this}.
      * </p>
      *
