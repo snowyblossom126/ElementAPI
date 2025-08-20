@@ -1,8 +1,8 @@
-package io.lumpq126.elementapi.api;
+package io.snowyblossom126.elementapi.api;
 
-import io.lumpq126.elementapi.api.elements.Element;
-import io.lumpq126.elementapi.api.elements.ElementRelation;
-import io.lumpq126.elementapi.api.elements.relation.BasicRelation;
+import io.snowyblossom126.elementapi.api.elements.Element;
+import io.snowyblossom126.elementapi.api.elements.ElementRelation;
+import io.snowyblossom126.elementapi.api.elements.relation.BasicRelation;
 import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
 import org.bukkit.persistence.PersistentDataType;

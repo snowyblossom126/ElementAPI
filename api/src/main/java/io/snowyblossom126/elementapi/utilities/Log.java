@@ -1,4 +1,4 @@
-package io.lumpq126.elementapi.utilities;
+package io.snowyblossom126.elementapi.utilities;
 
 import org.bukkit.plugin.java.JavaPlugin;
 

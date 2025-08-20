@@ -1,6 +1,6 @@
-package io.lumpq126.elementapi;
+package io.snowyblossom126.elementapi;
 
-import io.lumpq126.elementapi.utilities.Log;
+import io.snowyblossom126.elementapi.utilities.Log;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class ElementAPIPlugin extends JavaPlugin {

@@ -1,6 +1,6 @@
-package io.lumpq126.elementapi.api.elements.relation;
+package io.snowyblossom126.elementapi.api.elements.relation;
 
-import io.lumpq126.elementapi.api.elements.ElementRelation;
+import io.snowyblossom126.elementapi.api.elements.ElementRelation;
 
 /**
  * Defines basic types of elemental relations.
