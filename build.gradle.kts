@@ -5,8 +5,8 @@ plugins {
     id("io.papermc.paperweight.userdev") version "2.0.0-beta.18" apply false
 }
 
-group = "com.github.snowyblossom126"
-version = "1.0.0"
+group = "io.github.snowyblossom126"
+version = "1.0.1"
 
 val pluginVersion = project.version.toString()
 
@@ -42,7 +42,6 @@ tasks {
     }
 
     shadowJar {
-
         archiveClassifier.set("")
         archiveFileName.set("ElementAPI-$pluginVersion.jar")
 
