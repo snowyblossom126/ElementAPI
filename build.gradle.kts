@@ -37,20 +37,17 @@ tasks {
     shadowJar {
         archiveClassifier.set("")
         archiveFileName.set("ElementAPI-$pluginVersion.jar")
-
         exclude("META-INF/*.SF")
         exclude("META-INF/*.DSA")
         exclude("META-INF/*.RSA")
         exclude("module-info.class")
-
         relocate("org.bstats", "io.snowyblossom126.shadowed.bstats")
     }
 
     build {
         dependsOn(shadowJar)
+        finalizedBy("copyJarToServer")
     }
-
-    compileJava.get().dependsOn(clean)
 }
 
 val serverPluginsDir = file("C:/Users/user/Desktop/.server/plugins")
@@ -60,7 +57,6 @@ tasks.register<Copy>("copyJarToServer") {
     into(serverPluginsDir)
     rename { "ElementAPI-$pluginVersion.jar" }
 }
-tasks.build { dependsOn("copyJarToServer") }
 
 tasks.withType<Javadoc> {
     isFailOnError = false
@@ -68,36 +64,26 @@ tasks.withType<Javadoc> {
     (options as StandardJavadocDocletOptions).addStringOption("Xdoclint:none", "-quiet")
 }
 
-afterEvaluate {
-    tasks.named("generateMetadataFileForMavenPublication") {
-        dependsOn(tasks.named("plainJavadocJar"))
-    }
-}
-
 mavenPublishing {
     publishToMavenCentral()
     signAllPublications()
     coordinates("io.github.snowyblossom126", "element-api", version.toString())
-
     pom {
         name.set("ElementAPI")
         description.set("ElementAPI is a library that provides API support for Minecraft plugins.")
         url.set("https://github.com/snowyblossom126/ElementAPI")
-
         licenses {
             license {
                 name.set("Apache-2.0")
                 url.set("https://www.apache.org/licenses/LICENSE-2.0.txt")
             }
         }
-
         developers {
             developer {
                 id.set("snowyblossom126")
                 name.set("SnowyBlossom126")
             }
         }
-
         scm {
             url.set("https://github.com/snowyblossom126/ElementAPI")
             connection.set("scm:git:https://github.com/snowyblossom126/ElementAPI.git")
@@ -105,8 +91,6 @@ mavenPublishing {
     }
 }
 
-// GPG 2.x 시스템 GPG 사용
 signing {
     useGpgCmd()
 }
-
