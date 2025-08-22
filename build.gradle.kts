@@ -2,35 +2,28 @@ plugins {
     id ("java")
     id("xyz.jpenilla.run-paper") version "2.3.1"
     id("io.github.goooler.shadow") version "8.1.8"
-    id("io.papermc.paperweight.userdev") version "2.0.0-beta.18" apply false
+    id("com.vanniktech.maven.publish") version "0.34.0"
+    `java-library`
+    `maven-publish`
+    signing
 }
 
 group = "io.github.snowyblossom126"
-version = "1.0.1"
+version = "1.0.2"
 
 val pluginVersion = project.version.toString()
 
-allprojects {
-    apply(plugin = "java")
-
-    repositories {
-        mavenCentral()
-        maven("https://repo.papermc.io/repository/maven-public/") { name = "papermc" }
-    }
-
-    tasks.withType<JavaCompile>().configureEach {
-        options.encoding = "UTF-8"
-        options.release.set(21)
-    }
-
-    java {
-        toolchain.languageVersion.set(JavaLanguageVersion.of(21))
-    }
+repositories {
+    mavenCentral()
+    maven("https://repo.papermc.io/repository/maven-public/") { name = "papermc" }
 }
 
 dependencies {
-    implementation(project(":api"))
-    implementation(project(":core"))
+    compileOnly("io.papermc.paper:paper-api:1.21.4-R0.1-SNAPSHOT")
+}
+
+java {
+    toolchain.languageVersion.set(JavaLanguageVersion.of(21))
 }
 
 tasks {
@@ -57,10 +50,6 @@ tasks {
         dependsOn(shadowJar)
     }
 
-    jar {
-        enabled = false
-    }
-
     compileJava.get().dependsOn(clean)
 }
 
@@ -72,3 +61,52 @@ tasks.register<Copy>("copyJarToServer") {
     rename { "ElementAPI-$pluginVersion.jar" }
 }
 tasks.build { dependsOn("copyJarToServer") }
+
+tasks.withType<Javadoc> {
+    isFailOnError = false
+    options.encoding = "UTF-8"
+    (options as StandardJavadocDocletOptions).addStringOption("Xdoclint:none", "-quiet")
+}
+
+afterEvaluate {
+    tasks.named("generateMetadataFileForMavenPublication") {
+        dependsOn(tasks.named("plainJavadocJar"))
+    }
+}
+
+mavenPublishing {
+    publishToMavenCentral()
+    signAllPublications()
+    coordinates("io.github.snowyblossom126", "element-api", version.toString())
+
+    pom {
+        name.set("ElementAPI")
+        description.set("ElementAPI is a library that provides API support for Minecraft plugins.")
+        url.set("https://github.com/snowyblossom126/ElementAPI")
+
+        licenses {
+            license {
+                name.set("Apache-2.0")
+                url.set("https://www.apache.org/licenses/LICENSE-2.0.txt")
+            }
+        }
+
+        developers {
+            developer {
+                id.set("snowyblossom126")
+                name.set("SnowyBlossom126")
+            }
+        }
+
+        scm {
+            url.set("https://github.com/snowyblossom126/ElementAPI")
+            connection.set("scm:git:https://github.com/snowyblossom126/ElementAPI.git")
+        }
+    }
+}
+
+// GPG 2.x 시스템 GPG 사용
+signing {
+    useGpgCmd()
+}
+

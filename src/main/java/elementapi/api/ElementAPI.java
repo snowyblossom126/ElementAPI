@@ -1,10 +1,11 @@
-package io.snowyblossom126.elementapi.api;
+package elementapi.api;
 
-import io.snowyblossom126.elementapi.api.elements.Element;
-import io.snowyblossom126.elementapi.api.elements.ElementRelation;
-import io.snowyblossom126.elementapi.api.elements.relation.BasicRelation;
+import elementapi.api.elements.Element;
+import elementapi.api.elements.ElementRelation;
+import elementapi.api.elements.relation.BasicRelation;
 import org.bukkit.NamespacedKey;
-import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.plugin.Plugin;
 
@@ -56,7 +57,8 @@ public final class ElementAPI {
     private final Map<ElementPair, ElementRelation> relations = new HashMap<>();
 
     private Element defaultElement;
-    private NamespacedKey pdcKey;
+
+    private NamespacedKey elementKey;
 
     private ElementAPI() {}
 
@@ -67,13 +69,13 @@ public final class ElementAPI {
     /**
      * Initializes PersistentDataContainer integration.
      * <p>
-     * Must be called once during plugin startup to enable player data storage.
+     * Must be called once during plugin startup to enable player/item data storage.
      * </p>
      *
      * @param plugin the owning plugin (used for creating the {@link NamespacedKey}).
      */
     public void initPDC(Plugin plugin) {
-        this.pdcKey = new NamespacedKey(plugin, "element_api_registry");
+        this.elementKey = new NamespacedKey(plugin, "element_id");
     }
 
     // -------------------------
@@ -94,25 +96,31 @@ public final class ElementAPI {
         return true;
     }
 
-    /**
-     * Registers an element and assigns it to a specific player in their PDC.
-     *
-     * @param element the element to register.
-     * @param player the player whose data container should be updated.
-     * @return true if registration succeeded, false otherwise.
-     */
-    public boolean registerElement(Element element, Player player) {
-        boolean success = registerElement(element);
-        if (success && player != null && pdcKey != null) {
-            player.getPersistentDataContainer()
-                    .set(pdcKey, PersistentDataType.STRING, element.getId().toUpperCase());
-        }
-        return success;
-    }
-
     // -------------------------
     // Element Lookup
     // -------------------------
+
+    /**
+     * Adds an Element to an ItemStack using PersistentDataContainer.
+     *
+     * @param element   the element to attach
+     * @param itemStack the item to modify
+     * @return true if successful, false otherwise
+     */
+    public boolean addElementToItem(Element element, ItemStack itemStack) {
+        if (elementKey == null) {
+            throw new IllegalStateException("PDC has not been initialized. Call initPDC(plugin) first.");
+        }
+        if (element == null || itemStack == null) return false;
+
+        var meta = itemStack.getItemMeta();
+        if (meta == null) return false;
+
+        PersistentDataContainer container = meta.getPersistentDataContainer();
+        container.set(elementKey, PersistentDataType.STRING, element.getId());
+        itemStack.setItemMeta(meta);
+        return true;
+    }
 
     /**
      * Retrieves an element by ID.
@@ -126,12 +134,20 @@ public final class ElementAPI {
     }
 
     /**
-     * Returns the default element (the first one registered).
+     * Retrieves an Element from an ItemStack's PersistentDataContainer.
      *
-     * @return the default {@link Element}, or {@code null} if none registered.
+     * @param itemStack the item to read
+     * @return an Optional containing the element, or empty if not found
      */
-    public Element getDefaultElement() {
-        return defaultElement;
+    public Optional<Element> getElementFromItem(ItemStack itemStack) {
+        if (elementKey == null || itemStack == null || !itemStack.hasItemMeta()) {
+            return Optional.empty();
+        }
+
+        var meta = itemStack.getItemMeta();
+        PersistentDataContainer container = meta.getPersistentDataContainer();
+        String id = container.get(elementKey, PersistentDataType.STRING);
+        return getElement(id);
     }
 
     // -------------------------

@@ -1,4 +1,4 @@
-package io.snowyblossom126.elementapi.api.elements;
+package elementapi.api.elements;
 
 import java.util.Objects;
 

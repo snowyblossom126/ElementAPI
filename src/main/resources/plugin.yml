@@ -1,5 +1,5 @@
 name: EnchantAPI
 version: 1.0.0
-main: io.snowyblossom126.elementapi.ElementAPIPlugin
+main: elementapi.ElementAPIPlugin
 api-version: 1.17
 author: lumpq126

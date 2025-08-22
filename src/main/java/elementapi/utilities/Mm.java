@@ -1,4 +1,4 @@
-package io.snowyblossom126.elementapi.utilities;
+package elementapi.utilities;
 
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.minimessage.MiniMessage;
