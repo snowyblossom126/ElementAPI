@@ -1,6 +1,6 @@
-package elementapi;
+package io.snowyblossom126.elementapi;
 
-import elementapi.utilities.Log;
+import io.snowyblossom126.elementapi.utilities.Log;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public final class ElementAPIPlugin extends JavaPlugin {

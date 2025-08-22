@@ -1,8 +1,8 @@
-package elementapi.api;
+package io.snowyblossom126.elementapi.api;
 
-import elementapi.api.elements.Element;
-import elementapi.api.elements.ElementRelation;
-import elementapi.api.elements.relation.BasicRelation;
+import io.snowyblossom126.elementapi.api.elements.Element;
+import io.snowyblossom126.elementapi.api.elements.ElementRelation;
+import io.snowyblossom126.elementapi.api.elements.relation.BasicRelation;
 import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataContainer;

@@ -1,4 +1,4 @@
-package elementapi.api.elements;
+package io.snowyblossom126.elementapi.api.elements;
 
 /**
  * Defines a relation between two Elements.
