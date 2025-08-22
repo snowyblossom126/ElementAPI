@@ -74,7 +74,7 @@ public final class ElementAPI {
      *
      * @param plugin the owning plugin (used for creating the {@link NamespacedKey}).
      */
-    public void initPDC(Plugin plugin) {
+    public void init(Plugin plugin) {
         this.elementKey = new NamespacedKey(plugin, "element_id");
     }
 
